@@ -5,9 +5,16 @@ date: "July 3, 2015"
 output: html_document
 ---
 
+<<<<<<< HEAD
 1. Try compiling this document using the "Knit HTML" button. What files are produced? -> html file
 2. Edit the output to be "pdf_document" and recompile. What files are produced? -> pdflatex error
 3. What does the label "chunk1" do in the following code chunk? -> facilitates location of errors/tracks progress while knitting
+=======
+1. Try compiling this document using the "Knit HTML" button. What files are produced?
+2. Edit the output to be "pdf_document" and recompile. What files are produced?
+3. Edit the output to be "word_document" and recompile. What files are produced?
+4. What does the label "chunk1" do in the following code chunk?
+>>>>>>> upstream/gh-pages
 
 ```{r chunk1}
 x = rnorm(100)
@@ -31,26 +38,37 @@ x = rnorm(100)
 plot(x)
 ```
 
+<<<<<<< HEAD
 6. Add a chunk option of echo=FALSE and see what happens
 -> no code visible, but plot still shows up
 ```{r chunk4, echo=FALSE }
+=======
+7. Add a chunk option of echo=FALSE and see what happens
+
+```{r chunk4, }
+>>>>>>> upstream/gh-pages
 x = rnorm(100)
 plot(x)
 ```
 
-7. Uncomment this code and recompile the document. Then add a chunk command cache=TRUE and recompile. What files are created? Try compiling one more time. 
+8. Uncomment this code and recompile the document. Then add a chunk command cache=TRUE and recompile. What files are created? Try compiling one more time. 
 
 
 ```{r longtime, cache=TRUE}
-Sys.sleep(10)
+#Sys.sleep(10)
 ```
 
+9. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation. 
 
+<<<<<<< HEAD
 This creates a subfolder: rmarkdown-lab_cache, containing the R workspace. This is good for computationally intense steps - you only need to perform the computation itself once, but subsequent knitting will be much quicker. To get it to run from scratch again you will need to delete the cache files.
 
 side question: Why does the pair of _underscores_ turn the text purple in RStudio?
 
 8. Add the command devtools::session_info() to this chunk and look at the output
+=======
+10. Add the command devtools::session_info() to this chunk and look at the output
+>>>>>>> upstream/gh-pages
 
 ```{r session_info}
 devtools::session_info()
@@ -60,4 +78,5 @@ devtools::session_info()
 This is a best practice to help future-you! Records your system information including packages/versions.
 
 If multiple packages have functions with the same name, use packagename::functioname to specify which one you want. Otherwise R will take the one that was most recently loaded -> can have unintended concequences.
+
 
