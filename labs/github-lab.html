@@ -63,28 +63,29 @@ img {
 
 <div id="github-lab-for-sisbid" class="section level3">
 <h3>Github lab for SISBID</h3>
-<p><strong>Setting up git</strong> First we need to set up Git/Github. Here are a good set of instructions: <a href="http://r-pkgs.had.co.nz/git.html#git-init" class="uri">http://r-pkgs.had.co.nz/git.html#git-init</a></p>
 <ol style="list-style-type: decimal">
-<li>Install Git</li>
+<li><p>First we need to set up Git/Github. Here are a good set of instructions: <a href="http://r-pkgs.had.co.nz/git.html#git-init" class="uri">http://r-pkgs.had.co.nz/git.html#git-init</a>. When telling Git your name and email address you need to run the commands in the shell. You can do this with Tools -&gt; Shell in Rstudio.</p></li>
+<li><p>Use the approach discussed in class to clone the class repo: <a href="https://github.com/SISBID/Module1" class="uri">https://github.com/SISBID/Module1</a></p></li>
+<li><p>Create a new directory File -&gt; New Project -&gt; New Directory -&gt; Empty Project (be sure to click on the link to make it version controlled with git!).</p></li>
+<li><p>Create a file in the directory called “test.md” and write some stuff in it.</p></li>
+<li><p>Click on Github menu -&gt; Commit or type <code>Ctrl + Alt + M</code></p></li>
+<li><p>Click next to “test.md”, write a comment in the comment box and click “Commit”</p></li>
+<li><p>Go to Github and create a repo with the same name (if you go to <a href="https://github.com/yourusername?tab=repositories" class="uri">https://github.com/yourusername?tab=repositories</a> you should see a big green button to do this). Don’t initiate it with a readme.</p></li>
+<li><p>Open a shell with Tools -&gt; Shell</p></li>
+<li>Execute these commands in the same directory:</li>
 </ol>
 <ul>
-<li>Windows <a href="http://git-scm.com/download/win" class="uri">http://git-scm.com/download/win</a></li>
-<li>Mac <a href="http://git-scm.com/download/mac" class="uri">http://git-scm.com/download/mac</a>.</li>
-<li>Debian/Ubuntu: <code>sudo apt-get install git-core</code></li>
-<li>Other Linux distributions: <a href="http://git-scm.com/download/linux" class="uri">http://git-scm.com/download/linux</a>.</li>
+<li><code>git remote add origin https://github.com/yourusername/yourdirectoryname.git</code></li>
+<li><code>git push -u origin master</code></li>
 </ul>
-<ol start="2" style="list-style-type: decimal">
-<li>Open a shell (from Rstudio: Tools -&gt; Shell)</li>
-<li>Tell Git your name and email address</li>
-</ol>
-<ul>
-<li><code>git config --global user.name &quot;YOUR FULL NAME&quot;</code></li>
-<li><code>git config --global user.email &quot;YOUR EMAIL ADDRESS&quot;</code></li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li>Create an account on GitHub, <a href="https://github.com" class="uri">https://github.com</a> (the free plan is fine). Use the same email address as above.</li>
-<li><p>Set up a private key `<code>r file.exists(&quot;~/.ssh/id_rsa.pub&quot;)</code></p></li>
-<li><p>Get a Github account</p></li>
+<ol start="10" style="list-style-type: decimal">
+<li><p>You are all set up!</p></li>
+<li><p>Try adding another file <code>test2.md</code> and write some stuff in it.</p></li>
+<li><p>Add it by following Steps 5-6, but with <code>test2.md</code> to commit.</p></li>
+<li><p>Now click on the “Push” button in the Rstudio menu. This will push your new file up</p></li>
+<li><p>On <a href="https://github.com/yourusername/yourdirectoryname" class="uri">https://github.com/yourusername/yourdirectoryname</a> click on the place where it says something like “3 commits”. You can see each of the changes you have made.</p></li>
+<li><p>If you want to know more check out here: <a href="http://r-pkgs.had.co.nz/git.html" class="uri">http://r-pkgs.had.co.nz/git.html</a></p></li>
+<li><p>If you are done and want to learn how the command line tools work for Git check out: <a href="https://try.github.io/" class="uri">https://try.github.io/</a></p></li>
 </ol>
 </div>
 

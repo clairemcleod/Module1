@@ -5,9 +5,9 @@ date: "July 3, 2015"
 output: html_document
 ---
 
-1. Try compiling this document using the "Knit HTML" button. What files are produced?
-2. Edit the output to be "pdf_document" and recompile. What files are produced?
-3. What does the label "chunk1" do in the following code chunk?
+1. Try compiling this document using the "Knit HTML" button. What files are produced? -> html file
+2. Edit the output to be "pdf_document" and recompile. What files are produced? -> pdflatex error
+3. What does the label "chunk1" do in the following code chunk? -> facilitates location of errors/tracks progress while knitting
 
 ```{r chunk1}
 x = rnorm(100)
@@ -15,41 +15,49 @@ plot(x)
 ```
 
 # This is a primary header. Add a secondary header with ## on the line below and recompile.
+## Here is the secondary header.
 
+4. Change fig.height to something larger/smaller and see what happens
 
-5. Change fig.height to something larger/smaller and see what happens
-
-```{r chunk2, fig.height=5}
+```{r chunk2, fig.height=3}
 x = rnorm(100)
 plot(x)
 ```
 
-6. Add a chunk option of fig.align="center" to center this plot
+5. Add a chunk option of fig.align="center" to center this plot
 
-```{r chunk3, }
+```{r chunk3, fig.align="center"}
 x = rnorm(100)
 plot(x)
 ```
 
 6. Add a chunk option of echo=FALSE and see what happens
-
-```{r chunk4, }
+-> no code visible, but plot still shows up
+```{r chunk4, echo=FALSE }
 x = rnorm(100)
 plot(x)
 ```
 
 7. Uncomment this code and recompile the document. Then add a chunk command cache=TRUE and recompile. What files are created? Try compiling one more time. 
 
+
 ```{r longtime, cache=TRUE}
 Sys.sleep(10)
 ```
 
 
+This creates a subfolder: rmarkdown-lab_cache, containing the R workspace. This is good for computationally intense steps - you only need to perform the computation itself once, but subsequent knitting will be much quicker. To get it to run from scratch again you will need to delete the cache files.
+
+side question: Why does the pair of _underscores_ turn the text purple in RStudio?
+
 8. Add the command devtools::session_info() to this chunk and look at the output
 
 ```{r session_info}
-
+devtools::session_info()
 ```
 
 
+This is a best practice to help future-you! Records your system information including packages/versions.
+
+If multiple packages have functions with the same name, use packagename::functioname to specify which one you want. Otherwise R will take the one that was most recently loaded -> can have unintended concequences.
 
