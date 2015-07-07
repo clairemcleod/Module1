@@ -24,3 +24,236 @@ each project should have three folders:
 ##Day 1 Afternoon: Bioconductor
 
 
+##Day 2 Morning: Google Sheets
+
+
+
+```{r}
+library(devtools)
+install_github("jennybc/cellranger")
+install_github("jennybc/googlesheets")
+library(googlesheets)
+?gs_read
+?"cell-specification"
+```
+
+
+##JSON
+curly brackets with nested subfields
+Most APIs default to this structure
+jsonlite is best extant package, ongoing area of development
+
+```{r}
+github_url = "https://api.github.com/users/jtleek/repos"
+
+install.packages("jsonlite")
+library(jsonlite)
+jsonData <- fromJSON(github_url)
+dim(jsonData)
+
+```
+
+data frames can hold data frames.
+
+es) jsonData$owner is a data frame itself -- this reflects nested structure of json (eg. address has mutliple fields)
+
+often you want to extract out only a set of subfields
+
+APIs are still rare in biology --> so web scraping
+
+In chrome:
+>view source -- figure what you want to scrape out (inspect elements can help > copy Xpath)
+
+```{r}
+
+recount_url = "http://bowtie-bio.sourceforge.net/recount/"
+
+install.packages("rvest")
+library(rvest)
+htmlfile = html(recount_url)
+#htmlfile will be unstructured text 
+#Xpath is a structural identifier, 
+
+nds = html_nodes(htmlfile,
+                   xpath='//*[@id="recounttab"]/table')
+dat_scrape = html_table(nds)
+dat_scrape = as.data.frame(dat_scrape)
+
+```
+
+resources: rvest package documentation, Carson Seifert guide
+
+"proprietary data" -- e.g. scraping google scholar
+be careful about the websites you are scraping and if they have a scraping policy
+
+##APIs
+API wrappers - make interfacing easier
+
+figshare not compatible with 3.2.1
+```{r}
+
+install.packages("figshare")
+library(figshare)
+leeksearch = fs_search("Leek")
+
+install_github("rfigshare", "rOpenSci")
+
+length(leeksearch)
+```
+
+DIY
+-- read the documentation, things change rapidly
+-- pay attention to the rate limit!
+
+base url + specification (e.g. repositories) + query (q= or similar) + requirements
+
+```{r}
+
+query_url = "https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran"
+
+install.packages("httr")
+library(httr)
+req = GET(query_url)
+names(content(req))
+
+content(req)$items[[1]]
+
+```
+
+If you want to make lots of requests, send request and store in variable, then sys.sleep for time (e.g. six seconds)
+
+##Cleaning Data
+Raw is a relative term - the data however you got it (e.g. someone else may have processed it)
+You may only need to process it once (e.g. sequencing)
+Tidy data = ready for analysis; processing = anything you do to the file.
+Rule: never do anything point and click (no record of it happening)
+
+FASTQ files: base sequence for each sequencing cluster
+often considered "raw" sequencing data (images are too huge, except for sequencing cores)
+
+Four parts of a complete data set
+1. Raw data
+2. Tidy data
+3. Code book (e.g. variable names, explain what the variable names means, variable units, experimental design quirks (e.g. floors or maximum values from the machine))
+4. Recipe from (1,3) -> 2
+
+Version controlling data itself
+small files: GitHub
+large files: multiple raw data folders, record dates of acquisition, and how it was obtained (in readme)
+
+ideally: document both upstream (how you get the data) and downstream (who you send it to)
+
+*parameters must be specified in pipeline*
+
+-- be aware that default parameters can change!
+
+
+###Gapminder example
+```{r}
+
+library(dplyr)
+gd_url <- "http://tiny.cc/gapminder"
+gdf <- read.delim(file = gd_url)
+head(gdf)
+
+str(gdf) #tells you a little more about the variables
+
+summary(gdf) # shows part of table for factor variables, summary stats for numerical data
+
+table(gdf$continent, useNA="ifany") #by default table drops NA values
+
+#check if NA values are reasonable (all/a lot)
+```
+
+
+##Text processing
+
+```{r}
+fileUrl = "ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx"
+
+library(downloader)
+download(fileUrl,destfile="1000genomes.xlsx")
+
+#this is having corruption issues, downloaded manually
+
+
+library(readxl)
+# Have to skip one row because 
+# there is an extra header
+kg = read_excel("1000genomes.xlsx",
+                    sheet=4,skip=1)
+
+```
+
+
+substr(x,1,10): takes the 1st 10 characters of each variable name
+
+tolower(x): makes all lowercaset
+
+##dplyr ("competitor" to data.table)
+
+library(dplyr)
+gd_url <- "http://tiny.cc/gapminder"
+gdf <- read.delim(file = gd_url)
+head(gdf)
+str(gdf)
+
+gtbl <- tbl_df(gdf)
+
+select vs filter: 
+
+select(gtbl, country, pop, continent) #variable names separated by commas
+filter(gtbl, lifeExp < 29)
+
+arrange(gtbl, desc(pop))
+
+#mutate: add a new variable without having to do df$variable notation a lot
+gtbl = mutate(gtbl, newVar=(lifeExp/gdpPercap), newVar2=(newVar+1) ) # can chain definitions in one call
+head(gtbl)
+
+distinct: gives only unique rows
+
+to make big data more manageable, use random subsample
+
+sample_n(gtbl, 3)
+
+primary benefit of dplyr: 
+
+%>% (read as then), based on magrittr
+
+gtbl%>% head()
+
+#take the DF gtbl put it in head as the first argument, everything else is default params
+
+gtbl %>% head(3)
+
+#3 will be fed in as the second argument, can also include more arguments as 3
+```{r}
+gtbl1 = gtbl[gtbl$continent=="Asia",]
+gtbl2 = gtbl1[gtbl1$lifeExp < 65,]
+gtbl3 = gtbl2[sample(1:dim(gtbl2)[1],size=10),]
+gtbl3
+```
+
+vs.
+
+```{r}
+gtbl %>% filter(continent == "Asia") %>% 
+         filter(lifeExp < 65) %>%
+         sample_n(10)
+```
+
+You don't need to make all of the intermediate variables
+%>% at the end of each line
+
+can use multiple requirements in filter command, separated by , 
+
+gtbl %>% filter(continent == "Asia", lifeExp<65) 
+
+can summarize multiple variables in each summarize statement
+
+gtbl %>% group_by(continent,year) %>% summarize(aveLife=mean(lifeExp), numpercontinent=n())
+
+to see first value from every group: first()
+
+gtbl %>% group_by(continent, country) %>% arrange(desc(year)) %>% summarize(firstvalue=first(pop))

@@ -1,7 +1,7 @@
 ---
 title: "Google Sheets"
-author: "Your name"
-date: "July 5, 2015"
+author: "Claire"
+date: "July 7, 2015"
 output: html_document
 ---
 
@@ -11,7 +11,37 @@ This is a lab to practice with Google Sheets and the `googlesheets` package.
 
 2. Use the `googlesheets` package to read in the data like we discussed in class. 
 
+Best practice: save the date so that you have a record. Google keeps all of the versions
+By default, reads until the last line of text in the google sheet.
+
+```{r}
+sheets_url = "https://docs.google.com/spreadsheets/d/1FJ_k8krqoO5E7L5vjEMjB3vMoMcBRmAzxQ5tkJodT34/pubhtml"
+
+gsurl1 = gs_url(sheets_url)
+dat = gs_read(gsurl1)
+date_downloaded=date()
+
+dat
+```
+
 3. Look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`. 
+
+Readme here: https://github.com/jennybc/googlesheets
+
+Essentially these allow you to restrict the range of cells imported.
+
+cell_limits(ul = c(ROW_MIN, COL_MIN), lr = c(ROW_MAX, COL_MAX))
+
 
 4. Try reading in just the first two columns. 
 
+
+```{r}
+dat2 = gs_read(gsurl1, range = cell_cols(1:2))
+
+dat2
+
+dat3= gs_read(gsurl1, range = cell_limits(ul = c(2, 2), lr = c(5,6 )))
+
+dat3
+```
