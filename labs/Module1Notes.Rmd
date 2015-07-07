@@ -10,6 +10,17 @@ For cross-platform compatability (windows/mac), consider using file.path
 p<-file.path("folder1","folder2","file.txt" )
 ```
 
+### Some thoughts on reproducibility:
+each project should have three folders:
+
+1. raw/ -- raw data only
+
+2. processed/ -- cleaned data
+
+3. code/
+
+4. readme.md -- document files in other subfolders
+
 ##Day 1 Afternoon: Bioconductor
 
 
