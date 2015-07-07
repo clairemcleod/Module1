@@ -1,0 +1,15 @@
+---
+title: "Module 1 Notes"
+output: html_document
+---
+
+##Day 1 Morning: Git and R Markdown
+For cross-platform compatability (windows/mac), consider using file.path
+
+```{r}
+p<-file.path("folder1","folder2","file.txt" )
+```
+
+##Day 1 Afternoon: Bioconductor
+
+
