@@ -8,7 +8,7 @@ Let's first turn on the cache for increased performance and improved styling
 
 ```r
 # Set some global knitr options
-library("knitr")
+suppressMessages(library("knitr"))
 opts_chunk$set(cache = FALSE, messages = FALSE)
 ```
 
@@ -97,45 +97,7 @@ Before getting data from GEO, we need to see what data we want. For that we can 
 
 
 ```r
-library(GEOmetadb)
-```
-
-```
-## Loading required package: GEOquery
-## Loading required package: Biobase
-## Loading required package: BiocGenerics
-## Loading required package: parallel
-## 
-## Attaching package: 'BiocGenerics'
-## 
-## The following objects are masked from 'package:parallel':
-## 
-##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-##     clusterExport, clusterMap, parApply, parCapply, parLapply,
-##     parLapplyLB, parRapply, parSapply, parSapplyLB
-## 
-## The following object is masked from 'package:stats':
-## 
-##     xtabs
-## 
-## The following objects are masked from 'package:base':
-## 
-##     anyDuplicated, append, as.data.frame, as.vector, cbind,
-##     colnames, do.call, duplicated, eval, evalq, Filter, Find, get,
-##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
-##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
-##     table, tapply, union, unique, unlist, unsplit
-## 
-## Welcome to Bioconductor
-## 
-##     Vignettes contain introductory material; view with
-##     'browseVignettes()'. To cite Bioconductor, see
-##     'citation("Biobase")', and for packages 'citation("pkgname")'.
-## 
-## Setting options('download.file.method.GEOquery'='auto')
-## Loading required package: RSQLite
-## Loading required package: DBI
+suppressMessages(library(GEOmetadb))
 ```
 
 Remember that packages in Bioconductor are well documented with a vignette that can be access as follows:
@@ -277,7 +239,7 @@ raw data is contained in the supplementary files, which are listed in the gsm fi
 To get list of manufacturers:
 
 ```r
-library(data.table)
+suppressMessages(library(data.table))
 manu <- data.table(dbGetQuery(geo_con, "SELECT manufacturer FROM gpl"))
 manu[, .(n = .N), by = manufacturer][order(-n)]
 ```
@@ -392,7 +354,7 @@ str(GSE29617_set, max.level = 2)
 ```
 ## Formal class 'ExpressionSet' [package "Biobase"] with 7 slots
 ##   ..@ experimentData   :Formal class 'MIAME' [package "Biobase"] with 13 slots
-##   ..@ assayData        :<environment: 0x7fd20eb28ea0> 
+##   ..@ assayData        :<environment: 0x7fb6856958a0> 
 ##   ..@ phenoData        :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ featureData      :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ annotation       : chr "GPL13158"
@@ -455,543 +417,8 @@ There are two types of classes in R: S3 Classes (old style, informal) and S4 Cla
 ```r
 # S3 class
 head(methods(class = "data.frame"))
-```
-
-```
-## [1] "[.data.frame"           "[[.data.frame"         
-## [3] "[[<-,data.frame-method" "[[<-.data.frame"       
-## [5] "[<-,data.frame-method"  "[<-.data.frame"
-```
-
-```r
 # S4 class
 showMethods(classes  = "eSet")
-```
-
-```
-## 
-## Function ".DollarNames":
-##  <not an S4 generic function>
-## Function: [ (package base)
-## x="eSet", i="ANY", j="ANY"
-## 
-## Function: [[ (package base)
-## x="eSet"
-## 
-## Function: [[<- (package base)
-## x="eSet"
-## 
-## Function: $ (package base)
-## x="eSet"
-## 
-## Function: $<- (package base)
-## x="eSet"
-## 
-## Function: abstract (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "add":
-##  <not an S4 generic function>
-## 
-## Function "addAttributes":
-##  <not an S4 generic function>
-## 
-## Function "ahead_behind":
-##  <not an S4 generic function>
-## Function: annotation (package BiocGenerics)
-## object="eSet"
-## 
-## Function: annotation<- (package BiocGenerics)
-## object="eSet", value="character"
-## 
-## Function: assayData (package Biobase)
-## object="eSet"
-## 
-## Function: assayData<- (package Biobase)
-## object="eSet", value="AssayData"
-## 
-## 
-## Function "blame":
-##  <not an S4 generic function>
-## 
-## Function "blob_create":
-##  <not an S4 generic function>
-## 
-## Function "branch_create":
-##  <not an S4 generic function>
-## 
-## Function "branch_delete":
-##  <not an S4 generic function>
-## 
-## Function "branch_get_upstream":
-##  <not an S4 generic function>
-## 
-## Function "branch_remote_name":
-##  <not an S4 generic function>
-## 
-## Function "branch_remote_url":
-##  <not an S4 generic function>
-## 
-## Function "branch_rename":
-##  <not an S4 generic function>
-## 
-## Function "branch_set_upstream":
-##  <not an S4 generic function>
-## 
-## Function "branch_target":
-##  <not an S4 generic function>
-## 
-## Function "branches":
-##  <not an S4 generic function>
-## 
-## Function "bundle_r_package":
-##  <not an S4 generic function>
-## 
-## Function "checkout":
-##  <not an S4 generic function>
-## 
-## Function "clearMemoryManagement":
-##  <not an S4 generic function>
-## 
-## Function "close":
-##  <not an S4 generic function>
-## Function: coerce (package methods)
-## from="eSet", to="ExpressionSet"
-## from="eSet", to="MultiSet"
-## 
-## Function: combine (package BiocGenerics)
-## x="eSet", y="eSet"
-## 
-## 
-## Function "comment.SAX":
-##  <not an S4 generic function>
-## 
-## Function "commit":
-##  <not an S4 generic function>
-## 
-## Function "commits":
-##  <not an S4 generic function>
-## 
-## Function "config":
-##  <not an S4 generic function>
-## 
-## Function "contributions":
-##  <not an S4 generic function>
-## 
-## Function "cred_ssh_key":
-##  <not an S4 generic function>
-## 
-## Function "cred_user_pass":
-##  <not an S4 generic function>
-## 
-## Function "dbiDataType":
-##  <not an S4 generic function>
-## 
-## Function "default_signature":
-##  <not an S4 generic function>
-## 
-## Function "descendant_of":
-##  <not an S4 generic function>
-## Function: description (package Biobase)
-## object="eSet"
-## 
-## Function: description<- (package Biobase)
-## object="eSet", value="MIAME"
-## 
-## 
-## Function "diff":
-##  <not an S4 generic function>
-## Function: dim (package base)
-## x="eSet"
-## 
-## Function: dimnames (package base)
-## x="eSet"
-## 
-## Function: dimnames<- (package base)
-## x="eSet"
-## 
-## Function: dims (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "discover_repository":
-##  <not an S4 generic function>
-## 
-## Function "docName":
-##  <not an S4 generic function>
-## 
-## Function "docName<-":
-##  <not an S4 generic function>
-## 
-## Function "endElement.SAX":
-##  <not an S4 generic function>
-## 
-## Function "entityDeclaration.SAX":
-##  <not an S4 generic function>
-## Function: experimentData (package Biobase)
-## object="eSet"
-## 
-## Function: experimentData<- (package Biobase)
-## object="eSet", value="MIAME"
-## 
-## Function: fData (package Biobase)
-## object="eSet"
-## 
-## Function: fData<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## Function: featureData (package Biobase)
-## object="eSet"
-## 
-## Function: featureData<- (package Biobase)
-## object="eSet", value="AnnotatedDataFrame"
-## 
-## Function: featureNames (package Biobase)
-## object="eSet"
-## 
-## Function: featureNames<- (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "fetch_heads":
-##  <not an S4 generic function>
-## 
-## Function "findXIncludeStartNodes":
-##  <not an S4 generic function>
-## 
-## Function "formals<-":
-##  <not an S4 generic function>
-## 
-## Function "free":
-##  <not an S4 generic function>
-## 
-## Function "functions":
-##  <not an S4 generic function>
-## Function: fvarLabels (package Biobase)
-## object="eSet"
-## 
-## Function: fvarLabels<- (package Biobase)
-## object="eSet"
-## 
-## Function: fvarMetadata (package Biobase)
-## object="eSet"
-## 
-## Function: fvarMetadata<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## 
-## Function "getEffectiveNamespaces":
-##  <not an S4 generic function>
-## 
-## Function "getEncoding":
-##  <not an S4 generic function>
-## 
-## Function "getEncodingREnum":
-##  <not an S4 generic function>
-## 
-## Function "getTableElementType":
-##  <not an S4 generic function>
-## 
-## Function "GPL":
-##  <not an S4 generic function>
-## 
-## Function "GSM":
-##  <not an S4 generic function>
-## 
-## Function "hash":
-##  <not an S4 generic function>
-## 
-## Function "hashfile":
-##  <not an S4 generic function>
-## 
-## Function "head":
-##  <not an S4 generic function>
-## 
-## Function "in_repository":
-##  <not an S4 generic function>
-## 
-## Function "init":
-##  <not an S4 generic function>
-## Function: initialize (package methods)
-## .Object="eSet"
-## 
-## 
-## Function "is_bare":
-##  <not an S4 generic function>
-## 
-## Function "is_binary":
-##  <not an S4 generic function>
-## 
-## Function "is_detached":
-##  <not an S4 generic function>
-## 
-## Function "is_empty":
-##  <not an S4 generic function>
-## 
-## Function "is_head":
-##  <not an S4 generic function>
-## 
-## Function "is_local":
-##  <not an S4 generic function>
-## 
-## Function "is_merge":
-##  <not an S4 generic function>
-## 
-## Function "is_shallow":
-##  <not an S4 generic function>
-## 
-## Function "lookup":
-##  <not an S4 generic function>
-## 
-## Function "merge":
-##  <not an S4 generic function>
-## 
-## Function "merge_base":
-##  <not an S4 generic function>
-## 
-## Function "note_create":
-##  <not an S4 generic function>
-## 
-## Function "note_default_ref":
-##  <not an S4 generic function>
-## 
-## Function "note_remove":
-##  <not an S4 generic function>
-## Function: notes<- (package Biobase)
-## object="eSet", value="ANY"
-## 
-## 
-## Function "odb_blobs":
-##  <not an S4 generic function>
-## 
-## Function "odb_objects":
-##  <not an S4 generic function>
-## 
-## Function "parents":
-##  <not an S4 generic function>
-## Function: pData (package Biobase)
-## object="eSet"
-## 
-## Function: pData<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## Function: phenoData (package Biobase)
-## object="eSet"
-## 
-## Function: phenoData<- (package Biobase)
-## object="eSet", value="AnnotatedDataFrame"
-## 
-## 
-## Function "plot":
-##  <not an S4 generic function>
-## 
-## Function "pop":
-##  <not an S4 generic function>
-## Function: preproc (package Biobase)
-## object="eSet"
-## 
-## Function: preproc<- (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "processingInstruction.SAX":
-##  <not an S4 generic function>
-## 
-## Function "prompt":
-##  <not an S4 generic function>
-## Function: protocolData (package Biobase)
-## object="eSet"
-## 
-## Function: protocolData<- (package Biobase)
-## object="eSet", value="AnnotatedDataFrame"
-## 
-## Function: pubMedIds (package Biobase)
-## object="eSet"
-## 
-## Function: pubMedIds<- (package Biobase)
-## object="eSet", value="character"
-## 
-## 
-## Function "pull":
-##  <not an S4 generic function>
-## 
-## Function "readHTMLList":
-##  <not an S4 generic function>
-## 
-## Function "readHTMLTable":
-##  <not an S4 generic function>
-## 
-## Function "readKeyValueDB":
-##  <not an S4 generic function>
-## 
-## Function "readSolrDoc":
-##  <not an S4 generic function>
-## 
-## Function "references":
-##  <not an S4 generic function>
-## 
-## Function "reflog":
-##  <not an S4 generic function>
-## 
-## Function "remote_add":
-##  <not an S4 generic function>
-## 
-## Function "remote_remove":
-##  <not an S4 generic function>
-## 
-## Function "remote_rename":
-##  <not an S4 generic function>
-## 
-## Function "remote_url":
-##  <not an S4 generic function>
-## 
-## Function "remotes":
-##  <not an S4 generic function>
-## 
-## Function "removeAttributes":
-##  <not an S4 generic function>
-## 
-## Function "removeXMLNamespaces":
-##  <not an S4 generic function>
-## 
-## Function "repository":
-##  <not an S4 generic function>
-## 
-## Function "revparse_single":
-##  <not an S4 generic function>
-## 
-## Function "rm_file":
-##  <not an S4 generic function>
-## Function: sampleNames (package Biobase)
-## object="eSet"
-## 
-## Function: sampleNames<- (package Biobase)
-## object="eSet", value="ANY"
-## 
-## 
-## Function "saveXML":
-##  <not an S4 generic function>
-## 
-## Function "selectSomeIndex":
-##  <not an S4 generic function>
-## Function: show (package methods)
-## object="eSet"
-## 
-## 
-## Function "simplifyNamespaces":
-##  <not an S4 generic function>
-## 
-## Function "source":
-##  <not an S4 generic function>
-## 
-## Function "startElement.SAX":
-##  <not an S4 generic function>
-## 
-## Function "stash":
-##  <not an S4 generic function>
-## 
-## Function "stash_drop":
-##  <not an S4 generic function>
-## 
-## Function "stash_list":
-##  <not an S4 generic function>
-## 
-## Function "status":
-##  <not an S4 generic function>
-## Function: storageMode (package Biobase)
-## object="eSet"
-## 
-## Function: storageMode<- (package Biobase)
-## object="eSet", value="character"
-## 
-## 
-## Function "tag":
-##  <not an S4 generic function>
-## 
-## Function "tags":
-##  <not an S4 generic function>
-## 
-## Function "text.SAX":
-##  <not an S4 generic function>
-## 
-## Function "toHTML":
-##  <not an S4 generic function>
-## 
-## Function "tree":
-##  <not an S4 generic function>
-## Function: updateObject (package BiocGenerics)
-## object="eSet"
-## 
-## Function: updateObjectTo (package Biobase)
-## object="eSet", template="eSet"
-## 
-## Function: varLabels (package Biobase)
-## object="eSet"
-## 
-## Function: varLabels<- (package Biobase)
-## object="eSet"
-## 
-## Function: varMetadata (package Biobase)
-## object="eSet"
-## 
-## Function: varMetadata<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## 
-## Function "when":
-##  <not an S4 generic function>
-## 
-## Function "workdir":
-##  <not an S4 generic function>
-## 
-## Function "xmlAttrs<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlAttrsToDataFrame":
-##  <not an S4 generic function>
-## 
-## Function "xmlChildren<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlClone":
-##  <not an S4 generic function>
-## 
-## Function "xmlNamespace<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlNamespaces<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlParent":
-##  <not an S4 generic function>
-## 
-## Function "xmlRoot<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlSource":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceFunctions":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceSection":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceTask":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceThread":
-##  <not an S4 generic function>
-## 
-## Function "xmlToDataFrame":
-##  <not an S4 generic function>
-## 
-## Function "xmlToS4":
-##  <not an S4 generic function>
-## 
-## Function "xmlValue<-":
-##  <not an S4 generic function>
 ```
 
 ## The eSet
@@ -1227,7 +654,6 @@ What's the warning? Some probes match up with multiple genes, therefore those pr
 
 ## What are those probes?
 
-
 This gives us too many rows, what do we do? Concatenate the gene names so that there will be one row per probe ID.
 
 
@@ -1273,4 +699,104 @@ head(fData(GSE29617_set2))
 ## 1294_PM_at     1294_at UBA7;MIR5193
 ```
 
-Repeat this with a different accession number
+
+## Cleaning our metadata
+
+
+```r
+### Sanitize data and metadata
+sanitize_pdata <- function(pd){
+keepCols <- c(
+  "characteristics_ch1.1", "characteristics_ch1.2",
+  "description", 
+  "supplementary_file")
+pd <- pd[, keepCols]
+colnames(pd) <- c("ptid", "time", "description", "filename")
+pd$ptid <- gsub(".*: ", "", pd$ptid)
+pd$time <- gsub(".*: ", "", pd$time)
+pd$time <- gsub("Day", "D", pd$time)
+pd$description <- gsub("(-\\w*){2}$", "", pd$description)
+pd$filename <- basename(as.character(pd$filename))
+pd$filename <- gsub(".CEL.gz", "", pd$filename)
+pd
+}
+```
+
+## Setting the metadata
+
+
+```r
+pData(GSE29617_set2) <- sanitize_pdata(pData(GSE29617_set))
+pData(GSE29617_set2)[1:2, 1:2]
+```
+
+```
+##           ptid time
+## GSM733942    2   D0
+## GSM733943    2   D7
+```
+
+**Exercise:** Repeat this with a different accession number.
+
+
+## EDA of expression data
+
+Let's get our data ready
+
+
+```r
+fd <- data.table(fData(GSE29617_set2), keep.rownames = TRUE)
+setnames(fd, "rn", "probe_name")
+pd <- data.table(pData(GSE29617_set2))
+ed <- data.table(t(exprs(GSE29617_set2)), keep.rownames = TRUE)
+setnames(ed, "rn", "filename")
+ed <- ed[,filename := gsub(".CEL.gz", "", filename)]
+setkey(pd, filename)
+setkey(ed, filename)
+md <- ed[pd]
+```
+
+## Reshaping data
+
+
+```r
+library(reshape2)
+md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value")
+```
+
+```
+## Warning in melt.data.table(md, variable.name = "probe_name", value.name
+## = "expression_value"): To be consistent with reshape2's melt, id.vars and
+## measure.vars are internally guessed when both are 'NULL'. All non-numeric/
+## integer/logical type columns are conisdered id.vars, which in this case are
+## columns 'filename, ptid, time, description'. Consider providing at least
+## one of 'id' or 'measure' vars in future.
+```
+
+```r
+# Add gene variance
+md_long <- md_long[, sd_probe := sd(expression_value), by = probe_name]
+```
+
+## Filter and join
+
+
+```r
+setkey(md_long, probe_name)
+setkey(fd, probe_name)
+md_long_short <- fd[md_long[sd_probe > .5] , nomatch = 0]
+```
+
+
+## EDA of expression data
+
+
+```r
+library(ggplot2)
+ggplot(md_long_short[SYMBOL %in% c("IGJ", "IGKC", "CXCL10", "IFIT2")], aes(x = time, y = expression_value)) + geom_violin() + geom_jitter() + geom_line(aes(group = ptid), alpha = .5) + facet_wrap( ~SYMBOL + PROBEID, scales = "free")
+```
+
+![](Bioconductor_intro_files/figure-html/unnamed-chunk-37-1.png) 
+
+**Exercise:** Repeat this with different gene names and geometries
+
