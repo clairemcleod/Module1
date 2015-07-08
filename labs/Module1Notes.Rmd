@@ -257,3 +257,51 @@ gtbl %>% group_by(continent,year) %>% summarize(aveLife=mean(lifeExp), numpercon
 to see first value from every group: first()
 
 gtbl %>% group_by(continent, country) %>% arrange(desc(year)) %>% summarize(firstvalue=first(pop))
+
+
+
+## Day 2 afternoon
+
+DT+join vs cbind: cbind is more prone to mismatches (e.g. different order, a missing row etc.) -> it can be really hard to recognize errors
+
+with the keys, it is easier to make sure things are happening correctly.
+
+
+### some cool R tricks
+
+completion mechanism + tab complete (fuzzy match)
+
+```{r}
+library(data.table)
+
+dt <- data.table(xyzzzzz = rnorm(10), uvwwwww = 1:10)
+
+dt[,xyzzzzz]
+
+```
+
+Rmarkdown options: setup in header, gear icon by knit icon provided GUI to edit yaml code
+
+Style guidelines for R exist
+
+Tools>Global Options>Code>Diagnostics>Provide R Style diagnostics
+
+reformat code: Code menu
+
+html slides: w -> wide view, o -> overview
+
+Can set working directory using Session>Set Working Directory
+
+rm(list=ls()) #programtatically clears environment
+
+Code>Run Region>shortcuts to run chunks
+
+```{r}
+
+
+```
+
+data.table trick: md[1:2, 1:2, with=FALSE]
+
+
+ggplot: + theme_bw or similar

@@ -358,6 +358,13 @@ exprs(GSE29617_set2)[1:2,1:2]
 
 The rows are the features (i.e., probes). Columns are the samples.
 
+The GEO submission (from above):
+
+```{r}
+class(GSE29617_set)
+exprs(GSE29617_set)[1:2,1:3]
+```
+
 ## What are those probes?
 
 ```{r, eval=FALSE}
@@ -394,9 +401,11 @@ This gives us too many rows, what do we do? Concatenate the gene names so that t
 ```{r}
 library(data.table)
 probe_data_dt <- data.table(probe_data)
+probe_data_dt[PROBEID == "1007_s_at"]
 probe_data_dt_unique <- probe_data_dt[,list(SYMBOL = paste(SYMBOL, collapse = ";")), by = "PROBEID"]
 probe_data_dt_unique[SYMBOL %like% ";"]
 ```
+So about 1200 probes map to multiple genes (a relatively small fraction of the total # of probes)
 
 ## Completing our ExpressionSet
 
@@ -433,7 +442,7 @@ pd
 
 ```{r}
 pData(GSE29617_set2) <- sanitize_pdata(pData(GSE29617_set))
-pData(GSE29617_set2)[1:2, 1:2]
+pData(GSE29617_set2)[1:3, 1:3]
 ```
 
 **Exercise:** Repeat this with a different accession number.
@@ -441,7 +450,7 @@ pData(GSE29617_set2)[1:2, 1:2]
 
 ## EDA of expression data
 
-Let's get our data ready
+Let's get our data ready (b/c ggplot expects regtangular DF)
 
 ```{r}
 fd <- data.table(fData(GSE29617_set2), keep.rownames = TRUE)
@@ -452,7 +461,10 @@ setnames(ed, "rn", "filename")
 ed <- ed[,filename := gsub(".CEL.gz", "", filename)]
 setkey(pd, filename)
 setkey(ed, filename)
-md <- ed[pd]
+md <- ed[pd] #right join
+
+md[1:2, 54716:54719, with=FALSE]
+
 ```
 
 ## Reshaping data
@@ -469,7 +481,7 @@ md_long <- md_long[, sd_probe := sd(expression_value), by = probe_name]
 ```{r}
 setkey(md_long, probe_name)
 setkey(fd, probe_name)
-md_long_short <- fd[md_long[sd_probe > .5] , nomatch = 0]
+md_long_short <- fd[md_long[sd_probe > .5] , nomatch = 0] #inner join on the small table (high stdev)
 ```
 
 
